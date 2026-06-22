@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hearings Recording Splitter</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Hearings Recording Splitter</h1>
+    <p>Split long hearing recordings into smaller, upload-friendly M4A parts.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>1) Select audio file</h2>
+      <input id="file" type="file" accept=".m4a,.mp3,.wav,.aac,.ogg" />
+      <div id="fileInfo" class="mono small"></div>
+    </section>
+
+    <section class="card">
+      <h2>2) Options</h2>
+      <div class="grid">
+        <label>
+          Max segment size (MB):
+          <input id="maxMB" type="number" min="5" step="1" value="20" />
+        </label>
+
+        <label>
+          Encoding:
+          <select id="encoding">
+            <option value="auto" selected>Auto (same as source when possible)</option>
+            <option value="aac96">AAC 96 kbps</option>
+            <option value="aac128">AAC 128 kbps</option>
+            <option value="aac192">AAC 192 kbps</option>
+          </select>
+        </label>
+      </div>
+      <p class="small">
+        Auto = stream-copy for AAC/M4A (no re-encode). If source isn’t AAC/M4A, we convert to AAC 128kbps in M4A.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>3) Plan & Split</h2>
+      <div class="grid">
+        <button id="planBtn">Plan segments</button>
+        <button id="runBtn" disabled>Run split</button>
+        <button id="clearBtn" disabled>Clear workspace</button>
+      </div>
+      <div id="status" class="status mono"></div>
+      <table id="segments" class="segments">
+        <thead>
+          <tr><th>#</th><th>Start</th><th>Length</th><th>Est. Size</th><th>Actual Size</th><th>Download</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div id="alerts"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p class="small">All processing is local. Temporary files are deleted immediately after export.</p>
+  </footer>
+
+  <!-- FFmpeg.wasm (global FFmpeg object) -->
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.6/dist/ffmpeg.min.js"></script>
+  <script src="app.js" type="module"></script>
+</body>
+</html>
