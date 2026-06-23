@@ -4,6 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Hearings Recording Splitter</title>
+
+  <!-- PWA Manifest + Styles -->
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -39,7 +41,7 @@
         </label>
       </div>
       <p class="small">
-        Auto = stream-copy for AAC/M4A (no re-encode). If source isn’t AAC/M4A, we convert to AAC 128kbps in M4A.
+        Auto = stream-copy for AAC/M4A (no re-encode). If source isn’t AAC/M4A, we convert to AAC 128 kbps in M4A.
       </p>
     </section>
 
@@ -65,8 +67,17 @@
     <p class="small">All processing is local. Temporary files are deleted immediately after export.</p>
   </footer>
 
-  <!-- FFmpeg.wasm (global FFmpeg object) -->
+  <!-- FFmpeg.wasm UMD build -->
   <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.6/dist/ffmpeg.min.js"></script>
+
+  <!-- App code -->
   <script src="app.js" type="module"></script>
+
+  <!-- Register SW explicitly (optional but recommended) -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(console.error);
+    }
+  </script>
 </body>
 </html>
